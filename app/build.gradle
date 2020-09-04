@@ -36,8 +36,7 @@ android {
         applicationId "com.example.lr1"
         minSdkVersion 23
         targetSdkVersion 30
-
-
+        
         versionCode getVersionCode()
         versionName getVersionName()
 
