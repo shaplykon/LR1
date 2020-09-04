@@ -15,10 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
-
-
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -30,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
         String versionName = BuildConfig.VERSION_NAME;
         versionNameTextView.setText(versionName);
         versionCodeTextView.setText(Integer.toString(versionCode));
-
-
 
     }
 }
