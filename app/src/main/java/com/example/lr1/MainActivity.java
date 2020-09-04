@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
         super.onStart();
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         String versionName = BuildConfig.VERSION_NAME;
         versionNameTextView.setText(versionName);
         versionCodeTextView.setText(Integer.toString(versionCode));
+
+
 
     }
 }
