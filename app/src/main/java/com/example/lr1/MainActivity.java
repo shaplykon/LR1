@@ -27,5 +27,6 @@ public class MainActivity extends AppCompatActivity {
         String versionName = BuildConfig.VERSION_NAME;
         versionNameTextView.setText(versionName);
         versionCodeTextView.setText(Integer.toString(versionCode));
+
     }
 }
