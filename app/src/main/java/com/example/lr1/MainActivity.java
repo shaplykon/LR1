@@ -14,6 +14,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         TextView versionNameTextView = (TextView)findViewById(R.id.versionNameTextView);
         int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
