@@ -15,17 +15,17 @@ def getVersionCode = { ->
 }
 
 def getVersionName = { ->
-    try {
+
         def stdout = new ByteArrayOutputStream()
         exec {
-            commandLine 'git', 'describe', '--tags'
+            commandLine 'git', 'describe','--tags', '--long'
             standardOutput = stdout
         }
-        return stdout.toString().trim()
-    }
-    catch (ignored) {
-        return null;
-    }
+        stdout = stdout.toString().trim()
+        stdout = stdout.replaceAll(stdout.charAt(stdout.indexOf('-')).toString(), '.')
+
+
+        return stdout
 }
 
 android {
@@ -41,6 +41,7 @@ android {
         versionName getVersionName()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionNameSuffix 'v'
     }
 
     buildTypes {
