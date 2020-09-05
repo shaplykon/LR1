@@ -30,5 +30,8 @@ public class MainActivity extends AppCompatActivity {
         versionNameTextView.setText(versionName);
         versionCodeTextView.setText(Integer.toString(versionCode));
 
+
+
+        
     }
 }
