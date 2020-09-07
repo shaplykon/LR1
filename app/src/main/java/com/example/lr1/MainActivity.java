@@ -6,8 +6,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.widget.TextView;
 import com.example.lr1.BuildConfig;
+
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("ResourceType")
@@ -24,14 +29,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         TextView versionNameTextView = (TextView)findViewById(R.id.versionNameTextView);
-        TextView versionCodeTextView = (TextView)findViewById(R.id.versionCodeTextView);
-        int versionCode = BuildConfig.VERSION_CODE;
-        String versionName = BuildConfig.VERSION_NAME;
-        versionNameTextView.setText(versionName);
-        versionCodeTextView.setText(Integer.toString(versionCode));
+        versionNameTextView.setText("Application version: "+ BuildConfig.VERSION_NAME);
 
-
-
-        
+        TextView idTextView = (TextView)findViewById(R.id.idTextView);
+        //TextView versionCodeTextView = (TextView)findViewById(R.id.versionCodeTextView);
+        //int versionCode = BuildConfig.VERSION_CODE;
+        //versionCodeTextView.setText(Integer.toString(versionCode));
     }
 }

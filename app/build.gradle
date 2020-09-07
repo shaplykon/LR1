@@ -15,7 +15,7 @@ def getVersionCode = { ->
 }
 
 def getVersionName = { ->
-
+    try {
         def stdout = new ByteArrayOutputStream()
         exec {
             commandLine 'git', 'describe','--tags', '--long'
@@ -23,11 +23,34 @@ def getVersionName = { ->
         }
         stdout = stdout.toString().trim()
         stdout = stdout.replaceAll(stdout.charAt(stdout.indexOf('-')).toString(), '.')
-
         return stdout[0..(stdout.lastIndexOf('.') - 1)]
+    }
+    catch (ignored) {
+        return -1;
+    }
+}
+def getDate = { ->
+
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git show -s --format="%ct"'
+        standardOutput = stdout
+    }
+
+    return stdout
 }
 
+
+
 android {
+    signingConfigs {
+        Config {
+            storeFile file('E:\\Bursa\\3 kurs\\5 sem\\PPO\\LR1\\keystore.jks')
+            storePassword 'shaplykon'
+            keyAlias 'Upload key'
+            keyPassword 'shaplykon'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -38,7 +61,6 @@ android {
 
         versionCode getVersionCode()
         versionName getVersionName()
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
