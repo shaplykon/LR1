@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView convertedTextView = findViewById(R.id.convertedTextView);
         final Converter converter = new Converter();
 
-        initalTextView.addTextChangedListener(new TextWatcher() {
+        /*initalTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -68,9 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     String convertedUnit = convertedSpinner.getSelectedItem().toString();
                     convertedTextView.setText(converter.Convert(initalData, initalUnit, convertedUnit));
                 }
-
             }
-        });
+        });*/
 
         Button button1 = findViewById(R.id.button1);
         button1.setTag(1);
@@ -141,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int index, long id) {
                 String item = (String) parent.getItemAtPosition(index);
-
-
 
                 ArrayAdapter<String> initalAdapter;
                 ArrayAdapter<String> convertedAdapter;
