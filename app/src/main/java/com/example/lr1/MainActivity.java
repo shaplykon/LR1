@@ -1,8 +1,11 @@
 package com.example.lr1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.TypedArrayUtils;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,20 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-// get request
-// swap values
-// cm - cm
-// fix zero length of inital string case
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
-    String[] categories = {"Distance", "Weight", "Currency"};
-    String[] distanceUnits = {"inch", "meter", "centimeter"};
-    String[] weightUnits = {"gram", "kilogram", "centner"};
-    String[] currencyUnits = {"USD", "EUR", "BYN"};
-    String[] buffer = {"", ""};
-
+    String[] categories = {"Distance", "Weight", "Time"};
+    String[] distanceUnits = {"Inch", "Meter", "Centimeter"};
+    String[] weightUnits = {"Gram", "Kilogram", "Centner"};
+    String[] timeUnits = {"Second", "Minute", "Hour"};
+    final boolean[] valuesSwap = {false};
 
     @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
@@ -36,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
         TextView versionNameTextView = findViewById(R.id.versionNameTextView);
         versionNameTextView.setText("Application version: " + BuildConfig.VERSION_NAME);
 
-
-        Spinner categorySpinner = findViewById(R.id.categorySpinner);
+        final Spinner categorySpinner = findViewById(R.id.categorySpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
@@ -49,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView convertedTextView = findViewById(R.id.convertedTextView);
         final Converter converter = new Converter();
 
-        /*initalTextView.addTextChangedListener(new TextWatcher() {
+
+        initalTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -57,19 +55,27 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!initalTextView.getText().equals("") && !valuesSwap[0]) {
+                    String initalData = initalTextView.getText().toString();
+                    String initalUnit = initalSpinner.getSelectedItem().toString();
+                    String convertedUnit = convertedSpinner.getSelectedItem().toString();
+                    try {
+                        convertedTextView.setText(converter.Convert(initalData, initalUnit, convertedUnit, MainActivity.this));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
+                if (initalTextView.getText().toString().length() == 0) {
+                    convertedTextView.setText("");
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!initalTextView.getText().equals("")) {
-                    String initalData = initalTextView.getText().toString();
-                    String initalUnit = initalSpinner.getSelectedItem().toString();
-                    String convertedUnit = convertedSpinner.getSelectedItem().toString();
-                    convertedTextView.setText(converter.Convert(initalData, initalUnit, convertedUnit));
-                }
+
             }
-        });*/
+        });
 
         Button button1 = findViewById(R.id.button1);
         button1.setTag(1);
@@ -111,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                valuesSwap[0] = false;
                 if (v.getTag().equals(".")) {
                     initalTextView.append(".");
                 } else if (v.getTag().toString().equals("-1")) {
@@ -120,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     initalTextView.append(v.getTag().toString());
                 }
+
             }
         };
 
@@ -147,11 +155,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (item) {
                     case "Weight":
                         initalAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, weightUnits);
-                        convertedAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, weightUnits);
+                        convertedAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item);
                         break;
-                    case "Currency":
-                        initalAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, currencyUnits);
-                        convertedAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, currencyUnits);
+                    case "Time":
+                        initalAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, timeUnits);
+                        convertedAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, timeUnits);
                         break;
                     default:
                         initalAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, distanceUnits);
@@ -162,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 initalSpinner.setAdapter(initalAdapter);
                 convertedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 convertedSpinner.setAdapter(initalAdapter);
+                convertedSpinner.setSelection(2);
             }
 
             @Override
@@ -171,8 +180,76 @@ public class MainActivity extends AppCompatActivity {
 
         categorySpinner.setOnItemSelectedListener(categoryItemSelectedListener);
 
+        final AdapterView.OnItemSelectedListener UnitItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int index, long id) {
+                if (!valuesSwap[0]) {
+                    valuesSwap[0] = true;
+                    initalTextView.setText("");
+                    convertedTextView.setText("");
+                    valuesSwap[0] = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        };
+        initalSpinner.setOnItemSelectedListener(UnitItemSelectedListener);
+        convertedSpinner.setOnItemSelectedListener(UnitItemSelectedListener);
+
+        Button switchButton = findViewById(R.id.switchButton);
+        switchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (initalTextView.length() != 0) {
+                    valuesSwap[0] = true;
+
+                }
+                int initalBufferIndex = initalSpinner.getSelectedItemPosition();
+                int convertedBufferIndex = convertedSpinner.getSelectedItemPosition();
+                initalSpinner.setSelection(convertedBufferIndex, true);
+                convertedSpinner.setSelection(initalBufferIndex, true);
 
 
+                String initalTextBuffer = initalTextView.getText().toString();
+                initalTextView.setText(convertedTextView.getText().toString());
+                convertedTextView.setText(initalTextBuffer);
+                valuesSwap[0] = false;
+            }
+        });
+
+
+        final Button initalCopyButton = findViewById(R.id.copyInitalButton);
+        final Button convertedCopyButton = findViewById(R.id.copyConvertedButton);
+
+        View.OnClickListener CopyButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip;
+                String text;
+                if (view.getId() == initalCopyButton.getId()) {
+                    text = initalTextView.getText().toString();
+
+                } else {
+                    text = convertedTextView.getText().toString();
+                }
+                clip = ClipData.newPlainText("text", text);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getApplicationContext(), "Text copied", Toast.LENGTH_SHORT).show();
+            }
+        };
+        initalCopyButton.setOnClickListener(CopyButtonClick);
+        convertedCopyButton.setOnClickListener(CopyButtonClick);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        valuesSwap[0] = true;
+    }
 }
+

@@ -20,21 +20,21 @@
     <fragment
         android:id="@+id/dataFragment"
         android:name="com.example.lr1.DataFragment"
-        android:layout_width="415dp"
-        android:layout_height="268dp"
+        android:layout_width="371dp"
+        android:layout_height="194dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
         android:id="@+id/fragment2"
         android:name="com.example.lr1.KeyboardFragment"
-        android:layout_width="407dp"
-        android:layout_height="337dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dataFragment" />
+        android:layout_width="353dp"
+        android:layout_height="401dp"
+        android:layout_marginStart="3dp"
+        app:layout_constraintStart_toEndOf="@+id/dataFragment"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

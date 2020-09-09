@@ -1,13 +1,16 @@
 package com.example.lr1;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.annotation.SuppressLint;
+import android.content.Context;
+
 
 public  class Converter {
-    String[] distanceUnits = {"inch", "meter", "centimeter"};
-    String[] weightUnits = {"gram", "kilogram", "centner"};
-    String[] currencyUnits = {"USD", "EUR", "BYN"};
+    String[] distanceUnits = {"Inch", "Meter", "Centimeter"};
+    String[] weightUnits = {"Gram", "Kilogram", "Centner"};
+    String[] timeUnits = {"Second", "Minute", "Hour"};
 
-    public String Convert(String inintalData, String initalUnit, String convertedUnit){
+
+    public String Convert(String inintalData, String initalUnit, String convertedUnit, Context context)  {
         for (String str:
              distanceUnits) {
             if(initalUnit.equals(str)){
@@ -20,67 +23,136 @@ public  class Converter {
                 return WeightConverter(inintalData, initalUnit, convertedUnit);
             }
         }
+
+        for (String str:
+                timeUnits) {
+            if(initalUnit.equals(str)){
+                return TimeConverter(inintalData, initalUnit, convertedUnit, context);
+            }
+        }
         return "";
 
     }
 
+    @SuppressLint("DefaultLocale")
     private String WeightConverter(String initalData, String initalUnit, String convertedUnit){
         double inital = Double.parseDouble(initalData);
         double converted = 0;
         switch (initalUnit) {
-            case "centner":
-                if (convertedUnit.equals("kilogram")) {
+            case "Centner":
+                if (convertedUnit.equals("Kilogram")) {
                     converted = inital * 100;
-                } else if (convertedUnit.equals("gram")) {
+                } else if (convertedUnit.equals("Gram")) {
                     converted = inital * 100000;
                 }
-                break;
-            case "kilogram":
-                if (convertedUnit.equals("centner")) {
-                    converted = inital * 0.01;
-                } else if (convertedUnit.equals("gram")) {
-                    converted = inital * 1000;
+                else{
+                    converted = inital;
                 }
                 break;
-            case "gram":
-                if (convertedUnit.equals("centner")) {
+            case "Kilogram":
+                if (convertedUnit.equals("Centner")) {
+                    converted = inital * 0.01;
+                } else if (convertedUnit.equals("Gram")) {
+                    converted = inital * 1000;
+                }
+                else{
+                    converted = inital;
+                }
+                break;
+            case "Gram":
+                if (convertedUnit.equals("Centner")) {
                     converted = inital * 0.00001;
-                } else if (convertedUnit.equals("kilogram")) {
+                } else if (convertedUnit.equals("Kilogram")) {
                     converted = inital * 0.001;
+                }
+                else{
+                    converted = inital;
                 }
                 break;
         }
-        return String.valueOf(converted);
+        return String.format("%.5f", converted);
     }
 
 
+    @SuppressLint("DefaultLocale")
     private String DistanceConverter(String initalData, String initalUnit, String convertedUnit){
         double inital = Double.parseDouble(initalData);
         double converted = 0;
         switch (initalUnit) {
-            case "inch":
-                if (convertedUnit.equals("meter")) {
+            case "Inch":
+                if (convertedUnit.equals("Meter")) {
                     converted = inital * 0.025;
-                } else if (convertedUnit.equals("centimeter")) {
+                } else if (convertedUnit.equals("Centimeter")) {
                     converted = inital * 2.54;
                 }
-                break;
-            case "meter":
-                if (convertedUnit.equals("inch")) {
-                    converted = inital * 39.37;
-                } else if (convertedUnit.equals("centimeter")) {
-                    converted = inital * 100;
+                else{
+                    converted = inital;
                 }
                 break;
-            case "centimeter":
-                if (convertedUnit.equals("inch")) {
+            case "Meter":
+                if (convertedUnit.equals("Inch")) {
+                    converted = inital * 39.37;
+                } else if (convertedUnit.equals("Centimeter")) {
+                    converted = inital * 100;
+                }
+                else{
+                    converted = inital;
+                }
+                break;
+            case "Centimeter":
+                if (convertedUnit.equals("Inch")) {
                     converted = inital * 0.39;
-                } else if (convertedUnit.equals("meter")) {
+                } else if (convertedUnit.equals("Meter")) {
                     converted = inital * 0.01;
+                }
+                else{
+                    converted = inital;
                 }
                 break;
         }
+
         return String.valueOf(converted);
     }
+
+    @SuppressLint("DefaultLocale")
+    private String TimeConverter(String initalData, String initalUnit, String convertedUnit, Context context) {
+        double inital = Double.parseDouble(initalData);
+        double converted = 0;
+        switch (initalUnit) {
+            case "Second":
+                if (convertedUnit.equals("Minute")) {
+                    converted = inital * 0.017;
+                } else if (convertedUnit.equals("Hour")) {
+                    converted = inital * 0.00028;
+                }
+                else{
+                    converted = inital;
+                }
+                break;
+            case "Minute":
+                if (convertedUnit.equals("Second")) {
+                    converted = inital * 60;
+                } else if (convertedUnit.equals("Hour")) {
+                    converted = inital * 0.017;
+                }
+                else{
+                    converted = inital;
+                }
+                break;
+            case "Hour":
+                if (convertedUnit.equals("Minute")) {
+                    converted = inital * 60;
+                } else if (convertedUnit.equals("Second")) {
+                    converted = inital * 3600;
+                }
+                else{
+                    converted = inital;
+                }
+                break;
+        }
+
+        return String.valueOf(converted);
+    }
+
 }
 

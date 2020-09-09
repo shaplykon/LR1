@@ -18,7 +18,7 @@ def getVersionName = { ->
     try {
         def stdout = new ByteArrayOutputStream()
         exec {
-            commandLine 'git', 'describe','--tags', '--long'
+            commandLine 'git', 'describe', '--tags', '--long'
             standardOutput = stdout
         }
         stdout = stdout.toString().trim()
@@ -51,7 +51,7 @@ android {
         versionName getVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    flavorDimensions  "mode"
+    flavorDimensions "mode"
 
     productFlavors {
         pro {
@@ -66,6 +66,8 @@ android {
         }
     }
 
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -73,16 +75,19 @@ android {
             applicationIdSuffix '.pro'
         }
     }
+
+
+    dependencies {
+        implementation fileTree(dir: "libs", include: ["*.jar"])
+        implementation 'androidx.appcompat:appcompat:1.2.0'
+        implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+        implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+        implementation 'com.android.volley:volley:1.1.0'
+
+        testImplementation 'junit:junit:4.13'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    }
+
 }
-
-dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-}
-
