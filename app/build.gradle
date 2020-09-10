@@ -31,6 +31,7 @@ def getVersionName = { ->
 }
 
 android {
+
     signingConfigs {
         Config {
             storeFile file('E:\\Bursa\\3 kurs\\5 sem\\PPO\\LR1\\keystore.jks')
@@ -58,14 +59,30 @@ android {
             flavorDimensions "mode"
             applicationId "com.example.lr1.pro"
             versionName getVersionName() + "-pro"
+            buildConfigField "String", "VARIANT", "\"pro\""
         }
         free {
             flavorDimensions "mode"
             applicationId "com.example.lr1.free"
             versionName getVersionName() + "-free"
+            buildConfigField "String", "VARIANT", "\"free\""
         }
     }
 
+    sourceSets {
+        free {
+            java.srcDirs('src/free/java/', 'src/main/java/')
+        }
+        pro {
+            java.srcDirs('src/pro/java', 'src/main/java/')
+        }
+        main {
+            java.srcDirs('src/main/java')
+            res {
+                srcDirs 'src/main/res', 'src/main/res/converter_icon', 'src/free/res/mipmap'
+            }
+        }
+    }
 
 
     buildTypes {

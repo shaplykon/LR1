@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Converter Free</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textButton1">1</string>
+    <string name="textButton2">2</string>
+    <string name="textButton3">3</string>
+    <string name="textButton4">4</string>
+    <string name="textButton5">5</string>
+    <string name="textButton6">6</string>
+    <string name="textButton7">7</string>
+    <string name="textButton8">8</string>
+    <string name="textButton9">9</string>
+    <string name="textButton0">0</string>
+    <string name="textButtonBackspace">Backspace</string>
+    <string name="textButtonDot">.</string>
+    <string name="copy">copy</string>
+</resources>
