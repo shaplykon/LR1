@@ -33,8 +33,8 @@
         android:name="com.example.lr1.KeyboardFragment"
         android:layout_width="350dp"
         android:layout_height="309dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintStart_toEndOf="@+id/dataFragment"
         app:layout_constraintTop_toTopOf="parent" />
 
