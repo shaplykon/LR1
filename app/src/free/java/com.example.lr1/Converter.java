@@ -91,7 +91,7 @@ public  class Converter {
                 break;
             case "Meter":
                 if (convertedUnit.equals("Inch")) {
-                    converted = inital * 39.37;
+                    converted = inital * 39.37007874;
                 } else if (convertedUnit.equals("Centimeter")) {
                     converted = inital * 100;
                 }
@@ -101,7 +101,7 @@ public  class Converter {
                 break;
             case "Centimeter":
                 if (convertedUnit.equals("Inch")) {
-                    converted = inital * 0.39;
+                    converted = inital * 0.3937007874;
                 } else if (convertedUnit.equals("Meter")) {
                     converted = inital * 0.01;
                 }

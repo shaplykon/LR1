@@ -1,11 +1,7 @@
 package com.example.lr1;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.TypedArrayUtils;
-
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,11 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.Arrays;
 import java.util.Objects;
-
 
 public class MainActivity extends AppCompatActivity {
     String[] categories = {"Distance", "Weight", "Time"};
@@ -76,17 +69,13 @@ public class MainActivity extends AppCompatActivity {
                     ArrayAdapter<String> convertedAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, weightUnits);
                     convertedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     convertedSpinner.setAdapter(convertedAdapter);
-
                     break;
                 }
             }
-
             initalSpinner.setSelection(savedInstanceState.getInt(STATE_INITAL_SPINNER));
             convertedSpinner.setSelection(savedInstanceState.getInt(STATE_CONVERTED_SPINNER));
             initalTextView.setText(savedInstanceState.getString(STATE_INITAL_TEXT));
-
         }
-
 
         TextView versionNameTextView = findViewById(R.id.versionNameTextView);
         versionNameTextView.setText("Application version: " + BuildConfig.VERSION_NAME);
@@ -97,11 +86,9 @@ public class MainActivity extends AppCompatActivity {
         categorySpinner.setAdapter(adapter);
         final Converter converter = new Converter();
 
-
         initalTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -124,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
 
@@ -177,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     initalTextView.append(v.getTag().toString());
                 }
-
             }
         };
 
@@ -236,10 +221,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!initalTextView.getText().toString().equals(""))
                     initalTextView.setText(initalTextView.getText().subSequence(0, initalTextView.getText().length()));
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         };
         initalSpinner.setOnItemSelectedListener(UnitItemSelectedListener);

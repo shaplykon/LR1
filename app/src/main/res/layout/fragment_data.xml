@@ -8,6 +8,15 @@
     android:clipToPadding="true"
     tools:context=".DataFragment">
 
+    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+        android:id="@+id/android_material_design_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Material Design Spinner"
+        android:textColorHint="#05ab9a"
+        app:met_floatingLabel="normal"
+        tools:ignore="HardcodedText,MissingClass,MissingConstraints" />
+
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="151dp"
@@ -16,6 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <Spinner
         android:id="@+id/initalSpinner"

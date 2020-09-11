@@ -12,18 +12,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Arrays;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     String[] categories = {"Distance", "Weight", "Time"};
-    String[] distanceUnits = {"Inch", "Meter", "Centimeter"};
+    String[] distanceUnits = {"Meter", "Inch", "Centimeter"};
     String[] weightUnits = {"Gram", "Kilogram", "Centner"};
-    String[] timeUnits = {"Second", "Minute", "Hour"};
+    String[] timeUnits = {"Second",  "Hour", "Minute"};
 
     static final String STATE_INITAL_TEXT = "inital_data";
     static final String STATE_INITAL_SPINNER = "inital_spinner";
@@ -34,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         final TextView initalTextView = findViewById(R.id.inintalTextView);
         final TextView convertedTextView = findViewById(R.id.convertedTextView);
         final Spinner initalSpinner = findViewById(R.id.initalSpinner);
@@ -227,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!initalTextView.getText().toString().equals(""))
                     initalTextView.setText(initalTextView.getText().subSequence(0, initalTextView.getText().length()));
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -234,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         initalSpinner.setOnItemSelectedListener(UnitItemSelectedListener);
         convertedSpinner.setOnItemSelectedListener(UnitItemSelectedListener);
 
-        Button switchButton = findViewById(R.id.switchButton);
+        ImageButton switchButton = findViewById(R.id.switchButton);
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button initalCopyButton = findViewById(R.id.copyInitalButton);
-        final Button convertedCopyButton = findViewById(R.id.copyConvertedButton);
+        final ImageButton initalCopyButton = findViewById(R.id.copyInitalButton);
+        final ImageButton convertedCopyButton = findViewById(R.id.copyConvertedButton);
 
         View.OnClickListener CopyButtonClick = new View.OnClickListener() {
             @Override
