@@ -24,12 +24,11 @@ public class MainActivity extends AppCompatActivity {
     String[] distanceUnits = {"Meter", "Inch", "Centimeter"};
     String[] weightUnits = {"Gram", "Kilogram", "Centner"};
     String[] timeUnits = {"Second",  "Hour", "Minute"};
-
+    
     static final String STATE_INITAL_TEXT = "inital_data";
     static final String STATE_INITAL_SPINNER = "inital_spinner";
     static final String STATE_CONVERTED_SPINNER = "converted_spinner";
     static final String STATE_UNIT = "unit";
-
 
     @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
