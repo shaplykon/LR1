@@ -16,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.BuildConfig;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     String[] distanceUnits = {"Meter", "Inch", "Centimeter"};
     String[] weightUnits = {"Gram", "Kilogram", "Centner"};
     String[] timeUnits = {"Second",  "Hour", "Minute"};
-    
+
     static final String STATE_INITAL_TEXT = "inital_data";
     static final String STATE_INITAL_SPINNER = "inital_spinner";
     static final String STATE_CONVERTED_SPINNER = "converted_spinner";
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             initalTextView.setText(savedInstanceState.getString(STATE_INITAL_TEXT));
         }
         TextView versionNameTextView = findViewById(R.id.versionNameTextView);
-        versionNameTextView.setText("Application version: " + BuildConfig.VERSION_NAME);
+        versionNameTextView.setText("Application version: " + com.example.lr1.BuildConfig.VERSION_NAME);
 
         final Spinner categorySpinner = findViewById(R.id.categorySpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
