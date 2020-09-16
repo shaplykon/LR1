@@ -25,7 +25,8 @@
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_data" />
 
     <fragment
         android:id="@+id/fragment2"
@@ -37,6 +38,7 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dataFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/dataFragment"
+        tools:layout="@layout/fragment_keyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

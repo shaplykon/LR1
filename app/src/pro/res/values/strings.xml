@@ -15,4 +15,10 @@
     <string name="textButtonBackspace">Backspace</string>
     <string name="textButtonDot">.</string>
     <string name="copy">copy</string>
+    <string-array name="categories">
+        <item>Length</item>
+        <item>Weight</item>
+        <item>Time</item>
+
+    </string-array>
 </resources>

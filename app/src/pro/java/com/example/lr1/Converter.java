@@ -10,7 +10,7 @@ public  class Converter {
     String[] timeUnits = {"Second", "Minute", "Hour"};
 
 
-    public String Convert(String inintalData, String initalUnit, String convertedUnit, Context context)  {
+    public String Convert(String inintalData, String initalUnit, String convertedUnit)  {
         for (String str:
              distanceUnits) {
             if(initalUnit.equals(str)){
@@ -27,7 +27,7 @@ public  class Converter {
         for (String str:
                 timeUnits) {
             if(initalUnit.equals(str)){
-                return TimeConverter(inintalData, initalUnit, convertedUnit, context);
+                return TimeConverter(inintalData, initalUnit, convertedUnit);
             }
         }
         return "";
@@ -117,7 +117,7 @@ public  class Converter {
     }
 
     @SuppressLint("DefaultLocale")
-    private String TimeConverter(String initalData, String initalUnit, String convertedUnit, Context context) {
+    private String TimeConverter(String initalData, String initalUnit, String convertedUnit) {
         double inital = Double.parseDouble(initalData);
         double converted = 0;
         switch (initalUnit) {

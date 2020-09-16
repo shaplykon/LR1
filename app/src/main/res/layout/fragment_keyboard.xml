@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="10sp"
     android:padding="10sp"
+    android:tag="@string/textButton6"
     tools:context=".KeyboardFragment">
 
     <LinearLayout
@@ -24,6 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton1"
                 android:text="@string/textButton1" />
 
             <Button
@@ -32,6 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton2"
                 android:text="@string/textButton2" />
 
             <Button
@@ -40,6 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton3"
                 android:text="@string/textButton3" />
         </LinearLayout>
 
@@ -54,6 +58,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton4"
                 android:text="@string/textButton4" />
 
             <Button
@@ -62,6 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton5"
                 android:text="@string/textButton5" />
 
             <Button
@@ -84,6 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton7"
                 android:text="@string/textButton7" />
 
             <Button
@@ -92,6 +99,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton8"
                 android:text="@string/textButton8" />
 
             <Button
@@ -100,6 +108,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton9"
                 android:text="@string/textButton9" />
         </LinearLayout>
 
@@ -114,6 +123,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButtonDot"
                 android:text="@string/textButtonDot" />
 
             <Button
@@ -122,6 +132,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButton0"
                 android:text="@string/textButton0" />
 
             <Button
@@ -130,6 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
+                android:tag="@string/textButtonBackspace"
                 android:text="@string/textButtonBackspace" />
         </LinearLayout>
     </LinearLayout>

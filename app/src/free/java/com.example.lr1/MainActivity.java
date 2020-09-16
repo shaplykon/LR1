@@ -1,6 +1,7 @@
 package com.example.lr1;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -97,6 +99,20 @@ public class MainActivity extends AppCompatActivity {
                     String initalData = initalTextView.getText().toString();
                     String initalUnit = initalSpinner.getSelectedItem().toString();
                     String convertedUnit = convertedSpinner.getSelectedItem().toString();
+
+                    int dotAmount = 0;
+
+                    for (int k = 0; k < initalData.length(); k++) {
+                        if (initalData.charAt(k) == '.') {
+                            dotAmount++;
+                        }
+                    }
+
+                    if (dotAmount > 1) {
+                        initalData = initalData.substring(0, initalData.length() - 1);
+                        initalTextView.setText(initalData);
+                    }
+
                     try {
                         convertedTextView.setText(converter.Convert(initalData, initalUnit, convertedUnit, MainActivity.this));
                     } catch (Exception e) {
@@ -221,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!initalTextView.getText().toString().equals(""))
                     initalTextView.setText(initalTextView.getText().subSequence(0, initalTextView.getText().length()));
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
