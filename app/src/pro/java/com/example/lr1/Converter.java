@@ -70,7 +70,7 @@ public  class Converter {
                 }
                 break;
         }
-        return String.format("%.5f", converted);
+        return String.valueOf(converted);
     }
 
 

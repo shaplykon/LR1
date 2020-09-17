@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.text.Editable;
@@ -40,9 +41,10 @@ public class DataFragment extends Fragment {
     String[] timeUnits = {"Second", "Hour", "Minute"};
 
     DataModel dataModel = null;
+
     @SuppressLint("CutPasteId")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_data, container, false);
         dataModel = ViewModelProviders.of((FragmentActivity) Objects.requireNonNull(getContext())).get(DataModel.class);
@@ -54,21 +56,19 @@ public class DataFragment extends Fragment {
         convertedSpinner = view.findViewById(R.id.convertedSpinner);
         categorySpinner = view.findViewById(R.id.categorySpinner);
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
 
-
-        final AdapterView.OnItemSelectedListener categoryItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        dataModel.categorySpinnerValue.observe(this, new Observer<String>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int index, long id) {
-                String item = (String) parent.getItemAtPosition(index);
+            public void onChanged(String s) {
+
 
                 ArrayAdapter<String> initalAdapter;
                 ArrayAdapter<String> convertedAdapter;
 
-                switch (item) {
+                switch (s) {
                     case "Weight":
                         initalAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, weightUnits);
                         convertedAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item);
@@ -88,86 +88,39 @@ public class DataFragment extends Fragment {
                 convertedSpinner.setAdapter(initalAdapter);
                 convertedSpinner.setSelection(2);
             }
+        });
 
+        dataModel.initalSpinnerValue.observe(this, new Observer<String>() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        };
-
-        categorySpinner.setOnItemSelectedListener(categoryItemSelectedListener);
-
-
-        final AdapterView.OnItemSelectedListener UnitItemSelectedListener = new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int index, long id) {
-                if (!initalTextView.getText().toString().equals(""))
-                    initalTextView.setText(initalTextView.getText().subSequence(0, initalTextView.getText().length()));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        };
-        initalSpinner.setOnItemSelectedListener(UnitItemSelectedListener);
-        convertedSpinner.setOnItemSelectedListener(UnitItemSelectedListener);
-
-
-        initalTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (initalTextView.getText() != null && !initalTextView.getText().equals("")) {
-                    int dotAmount = 0;
-                    for (int k = 0; k < initalTextView.getText().toString().length(); k++) {
-                        if (initalTextView.getText().toString().charAt(k) == '.') {
-                            dotAmount++;
-                        }
-                    }
-                    if (dotAmount > 1) {
-                        String buffer = initalTextView.getText().toString().substring(0, initalTextView.getText().toString().length() - 1);
-                        initalTextView.setText(buffer);
-                    }
-                    String initalData = initalTextView.getText().toString();
-                    String initalUnit = initalSpinner.getSelectedItem().toString();
-                    String convertedUnit = convertedSpinner.getSelectedItem().toString();
-                    try {
-                        convertedTextView.setText(converter.Convert(initalData, initalUnit, convertedUnit));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if (initalTextView.getText().toString().length() == 0) {
-                    convertedTextView.setText("");
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+            public void onChanged(String s) {
+                ArrayAdapter<String> viewAdapter = (ArrayAdapter<String>) initalSpinner.getAdapter();
+                initalSpinner.setSelection(viewAdapter.getPosition(s));
             }
         });
 
-
+        dataModel.convertedSpinnerValue.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                ArrayAdapter<String> viewAdapter = (ArrayAdapter<String>) convertedSpinner.getAdapter();
+                convertedSpinner.setSelection(viewAdapter.getPosition(s));
+            }
+        });
 
 
         ImageButton switchButton = view.findViewById(R.id.switchButton);
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int initalBufferIndex = initalSpinner.getSelectedItemPosition();
-                int convertedBufferIndex = convertedSpinner.getSelectedItemPosition();
-                initalSpinner.setSelection(convertedBufferIndex, true);
-                convertedSpinner.setSelection(initalBufferIndex, true);
+                String buffer = dataModel.initalData.getValue();
+                dataModel.initalData.setValue(dataModel.convertedData.getValue());
+                dataModel.convertedData.setValue(buffer);
 
-                String initalTextBuffer = initalTextView.getText().toString();
-                initalTextView.setText(convertedTextView.getText().toString());
-                convertedTextView.setText(initalTextBuffer);
+
+                buffer = dataModel.initalSpinnerValue.getValue();
+                dataModel.initalSpinnerValue.setValue(dataModel.convertedSpinnerValue.getValue());
+                dataModel.convertedSpinnerValue.setValue(buffer);
+
+                dataModel.convertInitalValue();
             }
         });
 
@@ -177,7 +130,7 @@ public class DataFragment extends Fragment {
         View.OnClickListener CopyButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClipboardManager clipboard =getSystemService(getContext()
+                ClipboardManager clipboard = getSystemService(getContext()
                         , ClipboardManager.class);
                 ClipData clip;
                 String text;
@@ -194,20 +147,56 @@ public class DataFragment extends Fragment {
         initalCopyButton.setOnClickListener(CopyButtonClick);
         convertedCopyButton.setOnClickListener(CopyButtonClick);
 
+
+        // Observe data changes
+        dataModel.initalData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                initalTextView.setText(s);
+            }
+        });
+
+        dataModel.convertedData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                convertedTextView.setText(s);
+            }
+        });
+
+        initalSpinner.setOnItemSelectedListener(onItemSelectedListener);
+        convertedSpinner.setOnItemSelectedListener(onItemSelectedListener);
+        categorySpinner.setOnItemSelectedListener(categoryItemSelectedListener);
+
+
         return view;
+
+
     }
 
-    public void setData(String symbol) {
-        if (symbol.equals(".")) {
-            initalTextView.append(".");
-        } else if (symbol.equals("-1")) {
-            if (initalTextView.getText().length() >= 1) {
-                initalTextView.setText(initalTextView.getText().subSequence(0, initalTextView.getText().length() - 1));
-            }
-        } else {
-            initalTextView.append(symbol);
+    AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            dataModel.initalSpinnerValue.setValue(initalSpinner.getSelectedItem().toString());
+            dataModel.convertedSpinnerValue.setValue(convertedSpinner.getSelectedItem().toString());
+            dataModel.convertInitalValue();
         }
-    }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+        }
+    };
+
+    AdapterView.OnItemSelectedListener categoryItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            dataModel.setNewCategory(categorySpinner.getItemAtPosition(i).toString());
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    };
 
 
 }

@@ -1,20 +1,16 @@
 package com.example.lr1;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class KeyboardFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
+    private OnNumButtonClickListener mListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,15 +26,24 @@ public class KeyboardFragment extends Fragment {
         Button button8 = view.findViewById(R.id.button8);
         Button button9 = view.findViewById(R.id.button9);
         Button button0 = view.findViewById(R.id.button0);
+
         Button buttonDot = view.findViewById(R.id.buttonDot);
         Button buttonBackspace = view.findViewById(R.id.buttonBackspace);
-
         View.OnClickListener inputClickListener = new View.OnClickListener() {
             @SuppressLint("ShowToast")
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), view.getTag().toString(), Toast.LENGTH_LONG);
-                updateInput(view.getTag().toString());
+                Button button = (Button) view;
+                switch (button.getId()) {
+                    case R.id.buttonBackspace:
+                        mListener.onNumButtonClick(-1);
+                        break;
+                    case R.id.buttonDot:
+                        mListener.onNumButtonClick(-2);
+                        break;
+                    default:
+                        mListener.onNumButtonClick(Integer.parseInt(button.getTag().toString()));
+                }
             }
         };
 
@@ -58,33 +63,14 @@ public class KeyboardFragment extends Fragment {
         return view;
 
     }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        try{
-            mListener = (OnFragmentInteractionListener)context;
-
-        }
-        catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " должен реализовывать интерфейс OnFragmentInteractionListener");
-        }
-
+    public void setNumButtonClickListener(OnNumButtonClickListener listener){
+        this.mListener = listener;
     }
 
-    interface OnFragmentInteractionListener{
-        void onFragmentInteraction(String symbol);
-
-    }
-
-    public void updateInput(String tag){
-        if (tag.equals(".")) {
-            mListener.onFragmentInteraction(".");
-        } else if (tag.equals("Backspace")) {
-            mListener.onFragmentInteraction("-1");
-        } else {
-            mListener.onFragmentInteraction(tag);
+    interface OnNumButtonClickListener {
+        void
+        onNumButtonClick(int number);
         }
-    }
+
+
 }
