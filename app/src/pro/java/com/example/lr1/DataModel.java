@@ -13,16 +13,18 @@ public class DataModel extends ViewModel implements KeyboardFragment.OnNumButton
     MutableLiveData<String> categorySpinnerValue;
     String[] categories;
     boolean needInitialization = true;
+    Converter converter = new Converter();
 
-    public void setCategories(String[] units) {
-        this.categories = units;
-        categorySpinnerValue.setValue(categories[0]);
-        needInitialization = false;
+    public void initCategories(String[] units) {
+        if (needInitialization) {
+            this.categories = units;
+            categorySpinnerValue.setValue(categories[0]);
+            needInitialization = false;
+        }
     }
 
-    public void setNewCategory(String category){
+    public void setNewCategory(String category) {
         categorySpinnerValue.setValue(category);
-
     }
 
     public DataModel() {
@@ -41,43 +43,41 @@ public class DataModel extends ViewModel implements KeyboardFragment.OnNumButton
 
         switch (number) {
             case -1:
-                assert newValue != null;
-                if (!newValue.equals("")) {
-                    newValue = newValue.substring(0, newValue.length() - 1);
-                } else {
-                    newValue = "";
+                if (newValue != null) {
+                    if (!newValue.equals("")) {
+                        newValue = newValue.substring(0, newValue.length() - 1);
+                    } else {
+                        newValue = "";
+                    }
                 }
                 break;
             case -2:
                 int dotAmount = 0;
-                assert newValue != null;
-
-                for (int i = 0; i < newValue.length(); i++) {
-                    if (newValue.charAt(i) == '.') {
-                        dotAmount += 1;
+                if (newValue != null) {
+                    for (int i = 0; i < newValue.length(); i++) {
+                        if (newValue.charAt(i) == '.') {
+                            dotAmount += 1;
+                        }
                     }
-                }
 
-                if (dotAmount == 0 && newValue.length() > 0) {
-                    newValue += ".";
-                }
+                    if (dotAmount == 0 && newValue.length() > 0) {
+                        newValue += ".";
+                    }
 
-                if (newValue.length() == 0) {
-                    newValue += "0.";
+                    if (newValue.length() == 0) {
+                        newValue += "0.";
+                    }
                 }
                 break;
             default:
                 newValue += String.valueOf(number);
                 break;
-
-
         }
         initalData.setValue(newValue);
         convertInitalValue();
     }
 
     public void convertInitalValue() {
-        Converter converter = new Converter();
         if (!Objects.equals(initalData.getValue(), "")) {
             convertedData.setValue(converter.Convert(initalData.getValue(), initalSpinnerValue.getValue(), convertedSpinnerValue.getValue()));
         } else convertedData.setValue("");

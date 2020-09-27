@@ -2,15 +2,22 @@ package com.example.lr1;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Objects;
+
 public class KeyboardFragment extends Fragment {
     private OnNumButtonClickListener mListener;
+    DataModel dataModel = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,6 +33,9 @@ public class KeyboardFragment extends Fragment {
         Button button8 = view.findViewById(R.id.button8);
         Button button9 = view.findViewById(R.id.button9);
         Button button0 = view.findViewById(R.id.button0);
+
+        dataModel = ViewModelProviders.of((FragmentActivity) Objects.requireNonNull(getContext())).get(DataModel.class);
+        this.setNumButtonClickListener(dataModel);
 
         Button buttonDot = view.findViewById(R.id.buttonDot);
         Button buttonBackspace = view.findViewById(R.id.buttonBackspace);
@@ -61,16 +71,14 @@ public class KeyboardFragment extends Fragment {
         buttonBackspace.setOnClickListener(inputClickListener);
 
         return view;
-
     }
-    public void setNumButtonClickListener(OnNumButtonClickListener listener){
+
+    public void setNumButtonClickListener(OnNumButtonClickListener listener) {
         this.mListener = listener;
     }
 
     interface OnNumButtonClickListener {
         void
         onNumButtonClick(int number);
-        }
-
-
+    }
 }
